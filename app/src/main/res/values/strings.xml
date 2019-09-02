@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">BestBlog</string>
+    <string name="title_activity_ac_basic">acBasic</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="account">Account</string>
+    <string name="rate">Rate</string>
+    <string name="share">Share</string>
+    <string name="write_story">Write Story</string>
+    <string name="mic">Voice</string>
+    <string name="send">Send</string>
+
+    <string name="rate_app">Rate App</string>
+    <string name="search">Search</string>
+    <string name="camera">Camera</string>
+    <string name="audio">Audio</string>
+
+    <string name="recent">Recent</string>
+    <string name="most_liked">Most Liked</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="problem_internet">There was a problem with Internet </string>
+    <string name="exit_the_Problem">Do you want to exit the program ?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="Invalid">Invalid User Name or Password</string>
+</resources>

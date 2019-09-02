@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/itemReadUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textColor="@color/col_black_userN"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/itemReadUserComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemReadUserName"
+        android:layout_marginTop="10dp"
+        android:text="Comment"
+        android:textColor="@color/col_no_black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/itemReadUserCommentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemReadUserName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:text="12 May 2019"
+        android:textColor="@color/col_no_no_black"
+        android:textSize="15sp" />
+</RelativeLayout>
