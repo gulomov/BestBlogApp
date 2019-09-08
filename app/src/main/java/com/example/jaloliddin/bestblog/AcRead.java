@@ -2,6 +2,7 @@ package com.example.jaloliddin.bestblog;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,12 +43,10 @@ public class AcRead extends AppCompatActivity {
     private List<ModelRecyclerComments> modelRecyclerCommentsList;
     private MylRecyclerAdapterComments mylRecyclerAdapterComments;
 
-    private int postID = 0;
-    private int storyID = 0;
-    private int likesCount = 0;
+    private int seeCount = 0, postID = 0, storyID = 0, likeCount = 0;
     private EditText acReadCommentEditT;
     private TextView acReadByTv, acReadTimeTv, acReadTitleTv, acReadDescTv, acReadLikeTv, acReadSeeTv;
-    private ImageView acReadCommentSendIc;
+    private ImageView acReadCommentSendIc, acReadLikeImg;
     private LinearLayout acReadLinearLayLikeTv;
 
     @Override
@@ -56,6 +55,7 @@ public class AcRead extends AppCompatActivity {
         setContentView(R.layout.activity_ac_read);
         findLister();
         setPostID(getIntent().getIntExtra("postID", 0));
+        setSeeCount(getIntent().getIntExtra("seeCount",0));
 
     }
 
@@ -92,27 +92,28 @@ public class AcRead extends AppCompatActivity {
         acReadDescTv = (TextView) findViewById(R.id.acReadDescTv);
         acReadLikeTv = (TextView) findViewById(R.id.acReadLikeTv);
         acReadSeeTv = (TextView) findViewById(R.id.acReadSeeTv);
+        acReadLikeImg = (ImageView) findViewById(R.id.acReadLikeImg);
     }
 
 
-    private void sendLikeCCC(){
+    private void sendLikeCCC() {
 
-        int likeccc=getLikesCount()+1;
-        String colId=DbHelper.getInstance(this).getUserData()[0];
 
-        if (RetMet.getInstance(this).checkInternetConnection()){
+        String colId = DbHelper.getInstance(this).getUserData()[0];
+
+        if (RetMet.getInstance(this).checkInternetConnection()) {
             ServerConnnectionServiceR1.getInstance().getServerApiR1().checkLike(
-                    likeccc,
+                    getLikeCount() + 1,
                     colId,
                     getStoryID(),
                     new Callback<Response>() {
-                         String out="";
+                        String out = "";
 
                         @Override
                         public void success(Response response, Response response2) {
                             try {
-                                BufferedReader reader= new BufferedReader(new  InputStreamReader(response.getBody().in()));
-                                out=reader.readLine();
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
+                                out = reader.readLine();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -126,72 +127,56 @@ public class AcRead extends AppCompatActivity {
                         }
                     }
             );
-        }else{
+        } else {
             Log.d("MyTag", getClass().getName() + ">> checkingInternet: " + RetMet.getInstance(this).checkInternetConnection());
             RetMet.getInstance(this).alertDialogBuilder(null, "Problem with Internet", true);
 
         }
 
 
-
     }
 
     private void jsonParserLike(String out) {
-        Log.d("MyTag", getClass().getName() + ">> LikeCCC :" + out);
+        Log.d("MyTag", getClass().getName() + ">> LIkeccc: " + out);
+
+        int isLikes = 0, likes = 0;
+
+        try {
+            JSONArray jsonArray = new JSONArray(out);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                isLikes = jsonObject.getInt("isLikes");
+                likes = jsonObject.getInt("likes");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        acReadLikeTv.setText("" + likes);
+        if (isLikes == 1) {
+
+            acReadLikeTv.setTextColor(getResources().getColor(R.color.col_blue));
+            acReadLikeImg.setImageResource(R.drawable.ic_like_blue);
+        } else if (isLikes == 0) {
+            acReadLikeTv.setTextColor(getResources().getColor(R.color.col_no_no_black));
+            acReadLikeImg.setImageResource(R.drawable.ic_like);
+        }
+
 
     }
 
-    //
-//    private void sendLikeToServer() {
-//        int likeCount = getLikesCount() + 1;
-//        String colID = DbHelper.getInstance(this).getUserData()[0];
-//
-//        if (RetMet.getInstance(this).checkInternetConnection()) {
-//
-//            ServerConnnectionServiceR1.getInstance().getServerApiR1().likes(
-//                    likeCount,
-//                    colID,
-//                    getStoryID(),
-//                    new Callback<Response>() {
-//
-//                        String out = "";
-//
-//                        @Override
-//                        public void success(Response response, Response response2) {
-//                            try {
-//
-//                                Log.d("MyTag", getClass().getName() + ">> : Url = " + response.getUrl());
-//                                Log.d("MyTag", getClass().getName() + ">> : Status = " + response.getStatus());
-//
-//                                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
-//                                out = reader.readLine();
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                            jsonParserForLikes(out);
-//                        }
-//
-//                        @Override
-//                        public void failure(RetrofitError error) {
-//                            Log.d("MyTag", getClass().getName() + ">> retrofit:Error " + error.getMessage());
-//
-//                        }
-//                    }
-//            );
-//        } else {
-//            Log.d("MyTag", getClass().getName() + ">> checkingInternet: " + RetMet.getInstance(this).checkInternetConnection());
-//            RetMet.getInstance(this).alertDialogBuilder(null, "Problem with Internet", true);
-//
-//        }
-//    }
-//
-//    private void jsonParserForLikes(String out) {
-//        Log.d("MyTag", getClass().getName() + ">> Likes Status: " + out);}
 
     private void getDataFromServer() {
         if (RetMet.getInstance(this).checkInternetConnection()) {
+
+
+            String userId = DbHelper.getInstance(this).getUserData()[0];
+            if (userId==null){
+                userId="1";
+            }
             ServerConnnectionServiceR1.getInstance().getServerApiR1().postDataById(
                     getPostID(),
+                    userId,
+                    getSeeCount()+1,
                     new Callback<Response>() {
                         String out = "";
 
@@ -222,7 +207,7 @@ public class AcRead extends AppCompatActivity {
     }
 
     private void jsonParser(String out) {
-//        Log.d("MyTag", getClass().getName() + ">> outpur: " + out);
+        Log.d("MyTag", getClass().getName() + ">> output: " + out);
 
 //        [{"id":"12","userId":"1","title":"ghugvkhf","description":"gjfmmj","likes":"15","commentId":"0","commentCount":"0","see":"0","time":"18 Aug 2019","user_name":"jalol"}]
 
@@ -250,10 +235,11 @@ public class AcRead extends AppCompatActivity {
             acReadLikeTv.setText("" + likes);
             acReadSeeTv.setText("" + see);
 
+
             setStoryID(id);
             Log.d("MyTag", getClass().getName() + ">> setPostID : " + id);
 
-            setLikesCount(likes);
+            setLikeCount(likes);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -288,12 +274,18 @@ public class AcRead extends AppCompatActivity {
         String colID = DbHelper.getInstance(getApplicationContext()).getUserData()[0];
         String userName = DbHelper.getInstance(getApplicationContext()).getUserData()[1];
 
+
         if (sendComment) {
             if (RetMet.getInstance(this).checkInternetConnection()) {
+                String comment=acReadCommentEditT.getText().toString();
+                comment.replace(" ", "");
+                Log.d("MyTag", getClass().getName() + ">> commentReplacement= : "+comment);
+
+
                 ServerConnnectionServiceR1.getInstance().getServerApiR1().postComment(
                         "" + userName,
                         getPostID(),
-                        "" + acReadCommentEditT.getText().toString(),
+                        comment,
                         "" + colID,
 
                         new Callback<Response>() {
@@ -351,7 +343,7 @@ public class AcRead extends AppCompatActivity {
     }
 
     private void jsonParserForComment(String out) {
-        Log.d("MyTag", getClass().getName() + ">> Json: " + out);
+//        Log.d("MyTag", getClass().getName() + ">> Json: " + out);
         if (out.length() != 0) {
             modelRecyclerCommentsList = new ArrayList<>();
 
@@ -380,6 +372,14 @@ public class AcRead extends AppCompatActivity {
 
     }
 
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
     private boolean isEmpty() {
         String emt = "";
         if (acReadCommentEditT.getText().toString().equals("")) {
@@ -397,15 +397,17 @@ public class AcRead extends AppCompatActivity {
         return storyID;
     }
 
+    public int getSeeCount() {
+        return seeCount;
+    }
+
+    public void setSeeCount(int seeCount) {
+        this.seeCount = seeCount;
+    }
+
     public void setStoryID(int storyID) {
         this.storyID = storyID;
     }
 
-    public int getLikesCount() {
-        return likesCount;
-    }
 
-    public void setLikesCount(int likesCount) {
-        this.likesCount = likesCount;
-    }
 }

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Name"
-        android:textColor="@color/col_black_userN"
+        android:textColor="@color/col_blue"
         android:textSize="20sp" />
 
     <TextView
@@ -33,4 +33,10 @@
         android:text="12 May 2019"
         android:textColor="@color/col_no_no_black"
         android:textSize="15sp" />
+    <FrameLayout
+        android:background="#B1BCBE"
+        android:layout_below="@+id/itemReadUserCommentTime"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="2dp"></FrameLayout>
 </RelativeLayout>

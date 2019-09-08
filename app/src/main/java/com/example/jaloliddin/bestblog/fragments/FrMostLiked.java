@@ -101,7 +101,7 @@ public class FrMostLiked extends Fragment {
     }
 
     private void jsonParser(String json) {
-        Log.d("MyTag", getClass().getName() + ">> Json: " + json);
+//        Log.d("MyTag", getClass().getName() + ">> Json: " + json);
 
         try {
 
@@ -120,7 +120,7 @@ public class FrMostLiked extends Fragment {
                 time = object.getString("time");
 //                Log.d("MyTag", getClass().getName() + ">> jsonParserID: " + id);
 
-                modelRecyclers.add(new ModelRecycler(id,title, description, likes, comment_count, "" + see, time));
+                modelRecyclers.add(new ModelRecycler(id,title, description, likes, comment_count,  see, time));
             }
         } catch (JSONException e) {
             Log.d("MyTag", getClass().getName() + ">> JsonException:"+e.getMessage());

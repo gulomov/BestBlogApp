@@ -59,9 +59,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         if (modelRecycler.getComment() == 0) {
             holder.itemRecyclerComments.setVisibility(View.GONE);
         } else {
-            holder.itemCommentTv.setText("" + modelRecycler.getLike());
+            holder.itemCommentTv.setText("" + modelRecycler.getComment());
         }
-        holder.itemSeeTv.setText(modelRecycler.getSee());
+        holder.itemSeeTv.setText(""+modelRecycler.getSee());
         holder.itemTimeTv.setText(modelRecycler.getTime());
 
         holder.itemRecyclerCardView.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +69,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             public void onClick(View v) {
                 Log.d("MyTag", getClass().getName() + ">> onClick: getID = " + modelRecycler.getId());
 
-                context.startActivity(new Intent(context, AcRead.class).putExtra("postID", modelRecycler.getId()));
+                context.startActivity(new Intent(context, AcRead.class)
+                        .putExtra("postID", modelRecycler.getId())
+                        .putExtra("seeCount", modelRecycler.getSee()));
             }
         });
 

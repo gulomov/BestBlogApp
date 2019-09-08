@@ -69,17 +69,11 @@ public interface ServerApiR1 {
     @POST("/api/postDataById.php")
     void postDataById(
             @Field("postID") int postID,
+            @Field("userID") String userId,
+            @Field("seeCount") int seeCount,
             Callback<Response> responseCallback
     );
 
-    @FormUrlEncoded
-    @POST("/api/likes.php")
-    void likes(
-            @Field("likeStatus") int likeStatus,
-            @Field("userLikeID") String userID,
-            @Field("storyID") int storyID,
-            Callback<Response> responseCallback
-    );
 
 
     @FormUrlEncoded

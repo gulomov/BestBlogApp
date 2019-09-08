@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import com.example.jaloliddin.bestblog.fragments.FrBasic;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RetMet {
     private static Context context;
     private static RetMet instance;
@@ -72,4 +76,21 @@ public class RetMet {
         builder.create().show();
         return builder;
     }
+
+//    public int[] jsonParser(String json, String[] key) {
+//        int res[] = null;
+//
+//        try {
+//            JSONArray jsonArray = new JSONArray(json);
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                res[i] = jsonObject.getInt(key[i]);
+//            }
+//
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return res;
+//    }
 }

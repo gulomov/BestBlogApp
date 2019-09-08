@@ -25,6 +25,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="problem_internet">There was a problem with Internet </string>
     <string name="exit_the_Problem">Do you want to exit the program ?</string>
+    <string name="del_acc">Do you want to delete account?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="Invalid">Invalid User Name or Password</string>
